@@ -1,0 +1,40 @@
+import tkinter as tk
+from tkcalendar import DateEntry
+from datetime import datetime
+
+class CalendarApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Calendario de Selección de Fechas")
+
+        self.create_calendar()
+
+    def create_calendar(self):
+        self.cal = DateEntry(self.root, width=12, background='darkblue', foreground='white', selectbackground='orange', date_pattern='y-mm-dd')
+        self.cal.pack(pady=20, padx=10)
+
+        select_button = tk.Button(self.root, text="Obtener Fecha Seleccionada", command=self.get_selected_date)
+        select_button.pack(pady=10)
+
+        self.selected_date_label = tk.Label(self.root, text="Fecha seleccionada: ")
+        self.selected_date_label.pack(pady=5)
+
+    def get_selected_date(self):
+        date_str = self.cal.get()
+        selected_date = datetime.strptime(date_str, "%Y-%m-%d")
+        current_date = datetime.now()
+
+        if selected_date > current_date:
+            self.selected_date_label.config(text="Fecha seleccionada no puede ser futura.")
+        else:
+            self.selected_date_label.config(text="Fecha seleccionada: " + date_str)
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = CalendarApp(root)
+    root.mainloop()
+
+
+
+
+
